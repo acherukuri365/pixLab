@@ -169,30 +169,50 @@ public class Picture extends SimplePicture
 	public void pixelate(int size) {
 		Pixel[][] pixels = this.getPixels2D();
 		int r, g, b;
-		r = g = b = 0;
-		for(int i = 0; i < pixels.length; i++) {
-			for(int j = 0; j < pixels[0].length; j++) {
-				if(j != 0 && j % size == 0) {
-					break;
-					//~ r /= (size * size);
-					//~ g /= (size * size);
-					//~ b /= (size * size);
+		int count = 0;
+		for(int l = 0; l < pixels[0].length; l += size) {
+			for(int i = 0; i < pixels.length; i += size) {
+				r = g = b = 0;
+				for(int k = i; k < i + size; k++) {
+					for(int j = l; j < l + size; j++) {
+						if(k < pixels.length && j < pixels[0].length) {
+							Pixel pixel = pixels[k][j];
+							r += pixel.getRed();
+							g += pixel.getGreen();
+							b += pixel.getBlue();
+							count++;
+						}
+					}
 				}
-				else {
-					r += pixels[i][j].getRed();
-					g += pixels[i][j].getGreen();
-					b += pixels[i][j].getBlue();
+				
+				r /= count; g /= count; b /= count;
+				count = 0;
+				
+				for(int k = i; k < i + size; k++) {
+					for(int j = l; j < l + size; j++) {
+						if(k < pixels.length && j < pixels[0].length)
+							pixels[k][j].setColor(new Color(r, g, b));
+					}
 				}
-			}
-			if(i % size == 0) {
-				r /= (size * size);
-				g /= (size * size);
-				b /= (size * size);
-			}
-			for(int j = i; j < i + size; j++) {
-				pixels[i][j].setColor(new Color(r, g, b));
 			}
 		}
+	}
+	
+	/** Method that blurs the picture
+	* @param size Blur size, greater is more blur
+	* @return Blurred picture
+	*/
+	public Picture blur(int size) {
+		Pixel[][] pixels = this.getPixels2D();
+		int[][] r, g, b;
+		r = g = b = new int[pixels.length][pixels[0].length];
+		
+		
+		
+		
+	
+		Picture result = new Picture(pixels.length, pixels[0].length);
+		Pixel[][] resultPixels = result.getPixels2D();
 	}
   
   /** Method that mirrors the picture around a 

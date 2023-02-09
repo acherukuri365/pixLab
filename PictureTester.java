@@ -48,7 +48,7 @@ public class PictureTester
   public static void testPixelate() {
 	  Picture beach = new Picture("images/beach.jpg");
 	  beach.explore();
-	  beach.pixelate(40);
+	  beach.pixelate(20);
 	  beach.explore();
   }
   
