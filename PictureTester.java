@@ -3,8 +3,8 @@
  * that will help you test the Picture class 
  * methods.  Uncomment the methods and the code
  * in the main to test.
- * 
- * @author Barbara Ericson 
+ *
+ * @author Barbara Ericson
  */
 public class PictureTester
 {
@@ -16,42 +16,56 @@ public class PictureTester
     beach.zeroBlue();
     beach.explore();
   }
-  
+
   public static void testOnlyBlue() {
-	 Picture beach = new Picture("images/beach.jpg");
-	 beach.explore();
-	 beach.keepOnlyBlue();
-	 beach.explore();
+    Picture beach = new Picture("images/beach.jpg");
+    beach.explore();
+    beach.keepOnlyBlue();
+    beach.explore();
   }
-  
+
   public static void testNegate() {
-	  Picture beach = new Picture("images/beach.jpg");
-	  beach.explore();
-	  beach.negate();
-	  beach.explore();
+    Picture beach = new Picture("images/beach.jpg");
+    beach.explore();
+    beach.negate();
+    beach.explore();
   }
-  
+
   public static void testGrayscale() {
-	  Picture beach = new Picture("images/beach.jpg");
-	  beach.explore();
-	  beach.grayscale();
-	  beach.explore();
+    Picture beach = new Picture("images/beach.jpg");
+    beach.explore();
+    beach.grayscale();
+    beach.explore();
   }
-  
+
   public static void testWatermark() {
-	  Picture beach = new Picture("images/beach.jpg");
-	  beach.explore();
-	  beach.watermark();
-	  beach.explore();
+    Picture beach = new Picture("images/beach.jpg");
+    beach.explore();
+    beach.watermark();
+    beach.explore();
   }
-  
+
   public static void testPixelate() {
-	  Picture beach = new Picture("images/beach.jpg");
-	  beach.explore();
-	  beach.pixelate(20);
-	  beach.explore();
+    Picture beach = new Picture("images/beach.jpg");
+    beach.explore();
+    beach.pixelate(20);
+    beach.explore();
   }
-  
+
+  public static void testBlur() {
+    Picture beach = new Picture("images/beach.jpg");
+    beach.explore();
+    beach = beach.blur(11);
+    beach.explore();
+  }
+
+  public static void testEnhance() {
+    Picture water = new Picture("images/water.jpg");
+    water.explore();
+    water = water.enhance(20);
+    water.explore();
+  }
+
   /** Method to test mirrorVertical */
   public static void testMirrorVertical()
   {
@@ -60,7 +74,7 @@ public class PictureTester
     caterpillar.mirrorVertical();
     caterpillar.explore();
   }
-  
+
   /** Method to test mirrorTemple */
   public static void testMirrorTemple()
   {
@@ -69,7 +83,7 @@ public class PictureTester
     temple.mirrorTemple();
     temple.explore();
   }
-  
+
   /** Method to test the collage method */
   public static void testCollage()
   {
@@ -77,7 +91,7 @@ public class PictureTester
     canvas.createCollage();
     canvas.explore();
   }
-  
+
   /** Method to test edgeDetection */
   public static void testEdgeDetection()
   {
@@ -85,9 +99,9 @@ public class PictureTester
     swan.edgeDetection(10);
     swan.explore();
   }
-  
+
   /** Main method for testing.  Every class can have a main
-    * method in Java */
+   * method in Java */
   public static void main(String[] args)
   {
     // uncomment a call here to run a test
@@ -98,7 +112,9 @@ public class PictureTester
     //testNegate();
     //testGrayscale();
     //testWatermark();
-    testPixelate();
+    //testPixelate();
+    //testBlur();
+    testEnhance();
     //testKeepOnlyBlue();
     //testKeepOnlyRed();
     //testKeepOnlyGreen();
