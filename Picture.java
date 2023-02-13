@@ -365,7 +365,11 @@ public class Picture extends SimplePicture {
 
     return result;
   }
-
+	
+  /**
+   * Method to swap left half and right half of picture
+   * @return result Picture object to store modified picture
+   */
   public Picture swapLeftRight() {
     Pixel[][] pixels = this.getPixels2D();
     Picture result = new Picture(pixels.length, pixels[0].length);
@@ -384,6 +388,33 @@ public class Picture extends SimplePicture {
     }
 
     return result;
+  }
+  
+  /** <Description here>
+  * @param shiftCount The number of pixels to shift to the right
+  * @param steps The number of steps
+  * @return The picture with pixels shifted in stair steps
+  */
+  public Picture stairStep(int shiftCount, int steps) {
+	Pixel[][] pixels = this.getPixels2D();
+    Picture result = new Picture(pixels.length, pixels[0].length);
+    Pixel[][] resultPixels = result.getPixels2D();
+    
+    for(int i = 0; i < pixels.length; i++) {
+	  int index = 0;
+	  for(int j = pixels[0].length - (i * shiftCount); j < pixels[0].length; j++) {
+		System.out.println(i + " " + j);
+		resultPixels[i][index].setColor(pixels[i][j].getColor());
+		index++;
+	  }
+	  for(int j = 0; j < pixels[0].length - (i * shiftCount); j++) {
+		System.out.println(i + " " + j);
+		resultPixels[i][index].setColor(pixels[i][j].getColor());
+		index++;
+	  }
+	}
+	
+	return result;
   }
 
   /** Method that mirrors the picture around a

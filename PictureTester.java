@@ -72,6 +72,13 @@ public class PictureTester
     bike = bike.swapLeftRight();
     bike.explore();
   }
+  
+  public static void testStairStep() {
+	Picture bike = new Picture("images/redMotorcycle.jpg");
+	bike.explore();
+	bike = bike.stairStep(2, 1);
+	bike.explore();
+  }
 
   /** Method to test mirrorVertical */
   public static void testMirrorVertical()
@@ -122,7 +129,8 @@ public class PictureTester
     //testPixelate();
     //testBlur();
     //testEnhance();
-    testSwapLeftRight();
+    //testSwapLeftRight();
+    testStairStep();
     //testKeepOnlyBlue();
     //testKeepOnlyRed();
     //testKeepOnlyGreen();
