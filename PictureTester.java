@@ -66,6 +66,13 @@ public class PictureTester
     water.explore();
   }
 
+  public static void testSwapLeftRight() {
+    Picture bike = new Picture("images/redMotorcycle.jpg");
+    bike.explore();
+    bike = bike.swapLeftRight();
+    bike.explore();
+  }
+
   /** Method to test mirrorVertical */
   public static void testMirrorVertical()
   {
@@ -114,7 +121,8 @@ public class PictureTester
     //testWatermark();
     //testPixelate();
     //testBlur();
-    testEnhance();
+    //testEnhance();
+    testSwapLeftRight();
     //testKeepOnlyBlue();
     //testKeepOnlyRed();
     //testKeepOnlyGreen();
