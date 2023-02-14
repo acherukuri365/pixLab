@@ -376,15 +376,21 @@ public class Picture extends SimplePicture {
     Pixel[][] resultPixels = result.getPixels2D();
 
     for(int i = 0; i < pixels.length; i++) {
-      int index = 0;
-      for(int j = pixels[0].length / 2; j < pixels[0].length; j++) {
-        resultPixels[i][index].setColor(pixels[i][j].getColor());
-        index++;
-      }
-      for(int j = 0; j < pixels[0].length / 2; j++) {
-        resultPixels[i][index].setColor(pixels[i][j].getColor());
-        index++;
-      }
+      //~ int index = 0;
+      //~ for(int j = pixels[0].length / 2; j < pixels[0].length; j++) {
+        //~ resultPixels[i][index].setColor(pixels[i][j].getColor());
+        //~ index++;
+      //~ }
+      //~ for(int j = 0; j < pixels[0].length / 2; j++) {
+        //~ resultPixels[i][index].setColor(pixels[i][j].getColor());
+        //~ index++;
+      //~ }
+      
+      
+      for(int j = 0; j < pixels[0].length; j++) {
+	    int col = (j + pixels[0].length / 2) % pixels[0].length;
+	    resultPixels[i][col].setColor(pixels[i][j].getColor());
+	  }
     }
 
     return result;
@@ -400,17 +406,43 @@ public class Picture extends SimplePicture {
     Picture result = new Picture(pixels.length, pixels[0].length);
     Pixel[][] resultPixels = result.getPixels2D();
     
+    //~ int count = 1;
     for(int i = 0; i < pixels.length; i++) {
-	  int index = 0;
-	  for(int j = pixels[0].length - (i * shiftCount); j < pixels[0].length; j++) {
-		System.out.println(i + " " + j);
-		resultPixels[i][index].setColor(pixels[i][j].getColor());
-		index++;
+	  //~ int index = 0;
+	  //~ for(int j = pixels[0].length - (count * shiftCount); j < pixels[0].length; j++) {
+		//~ if(j >= 0) {
+		  //~ System.out.println(i + " " + j);
+		  //~ resultPixels[i][index].setColor(pixels[i][j].getColor());
+		  //~ index++;
+		//~ }
+	  //~ }
+	  //~ for(int j = 0; j < pixels[0].length - (count * shiftCount); j++) {
+		//~ System.out.println(i + " " + j);
+		//~ resultPixels[i][index].setColor(pixels[i][j].getColor());
+		//~ index++;
+	  //~ }
+	  //~ count++;
+	  
+	  for(int j = 0; j < pixels[0].length; j++) {
+	    int col = (pixels[0].length - j * shiftCount) % pixels[0].length;
+	    resultPixels[i][col].setColor(pixels[i][j].getColor());
 	  }
-	  for(int j = 0; j < pixels[0].length - (i * shiftCount); j++) {
-		System.out.println(i + " " + j);
-		resultPixels[i][index].setColor(pixels[i][j].getColor());
-		index++;
+	}
+	
+	return result;
+  }
+  
+  public Picture edgeDetectionBelow(int threshhold) {
+	Pixel[][] pixels = this.getPixels2D();
+    Picture result = new Picture(pixels.length, pixels[0].length);
+    Pixel[][] resultPixels = result.getPixels2D();
+    
+    for(int i = 0; i < pixels[0].length; i++) {
+	  for(int j = 0; j < pixels.length - 1; j++) {
+		double distance = pixels[j][i].colorDistance(pixels[j + 1][i].getColor());
+		
+		if(distance > threshhold * 1.0) pixels[j][i].setColor(new Color(0, 0, 0));
+		else resultPixels[j][i].setColor(new Color(255, 255, 255));
 	  }
 	}
 	

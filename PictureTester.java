@@ -79,6 +79,13 @@ public class PictureTester
 	bike = bike.stairStep(2, 1);
 	bike.explore();
   }
+  
+  public static void testEdgeDetection() {
+	  Picture swan = new Picture("images/swan.jpg");
+	  swan.explore();
+	  swan = swan.edgeDetectionBelow(10);
+	  swan.explore();
+  }
 
   /** Method to test mirrorVertical */
   public static void testMirrorVertical()
@@ -106,14 +113,6 @@ public class PictureTester
     canvas.explore();
   }
 
-  /** Method to test edgeDetection */
-  public static void testEdgeDetection()
-  {
-    Picture swan = new Picture("swan.jpg");
-    swan.edgeDetection(10);
-    swan.explore();
-  }
-
   /** Main method for testing.  Every class can have a main
    * method in Java */
   public static void main(String[] args)
@@ -121,6 +120,7 @@ public class PictureTester
     // uncomment a call here to run a test
     // and comment out the ones you don't want
     // to run
+    
     //testZeroBlue();
     //testOnlyBlue();
     //testNegate();
@@ -131,6 +131,8 @@ public class PictureTester
     //testEnhance();
     //testSwapLeftRight();
     testStairStep();
+    //testEdgeDetection();
+    
     //testKeepOnlyBlue();
     //testKeepOnlyRed();
     //testKeepOnlyGreen();
