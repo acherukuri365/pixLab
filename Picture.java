@@ -423,6 +423,8 @@ public class Picture extends SimplePicture {
 	  //~ }
 	  //~ count++;
 	  
+	  int move = pixels.length / steps;
+	  
 	  for(int j = 0; j < pixels[0].length; j++) {
 	    int col = (pixels[0].length - j * shiftCount) % pixels[0].length;
 	    resultPixels[i][col].setColor(pixels[i][j].getColor());
@@ -441,12 +443,37 @@ public class Picture extends SimplePicture {
 	  for(int j = 0; j < pixels.length - 1; j++) {
 		double distance = pixels[j][i].colorDistance(pixels[j + 1][i].getColor());
 		
-		if(distance > threshhold * 1.0) pixels[j][i].setColor(new Color(0, 0, 0));
+		if(distance > threshhold * 1.0) resultPixels[j][i].setColor(new Color(0, 0, 0));
 		else resultPixels[j][i].setColor(new Color(255, 255, 255));
 	  }
 	}
 	
 	return result;
+  }
+  
+  public Picture greenScreen() {
+	Pixel[][] pixels = this.getPixels2D();
+	Picture mouse = new Picture("GreenScreenCatMouse/mouse1GreenScreen.jpg");
+	Pixel[][] mousePix = mouse.getPixels2D();
+	Picture dog = new Picture("GreenScreenCatMouse/puppy1GreenScreen.jpg");
+	Pixel[][] dogPix = dog.getPixels2D();
+	
+	//~ [400, 575] r g b = 20 80 20
+	//~ System.out.println(dogPix.length + " " + dogPix[0].length);
+	int row = 0;
+	for(int i = 40; i < 40 + dogPix.length; i++) {
+	  int col = 0;
+	  for(int j = 50; j < 50 + dogPix[0].length; j++) {
+		//~ System.out.println(row + " " + col);
+		if(dogPix[row][col].getColor() != Color.GREEN)//new Color(20, 80, 20))
+		  pixels[i][j].setColor(dogPix[row][col].getColor());
+		
+		col++;
+	  }
+	  row++;
+	}
+	
+	return this;
   }
 
   /** Method that mirrors the picture around a

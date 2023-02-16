@@ -86,6 +86,12 @@ public class PictureTester
 	  swan = swan.edgeDetectionBelow(10);
 	  swan.explore();
   }
+  
+  public static void testGreenScreen() {
+	Picture background = new Picture("GreenScreenCatMouse/IndoorJapeneseRoomBackground.jpg");
+	background = background.greenScreen();
+	background.explore();
+  }
 
   /** Method to test mirrorVertical */
   public static void testMirrorVertical()
@@ -130,8 +136,9 @@ public class PictureTester
     //testBlur();
     //testEnhance();
     //testSwapLeftRight();
-    testStairStep();
+    //testStairStep();
     //testEdgeDetection();
+    testGreenScreen();
     
     //testKeepOnlyBlue();
     //testKeepOnlyRed();
