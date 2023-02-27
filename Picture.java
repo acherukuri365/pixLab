@@ -365,10 +365,9 @@ public class Picture extends SimplePicture {
 
     return result;
   }
-	
-  /**
-   * Method to swap left half and right half of picture
-   * @return result Picture object to store modified picture
+
+  /** Swaps left half and right half of picture
+   *  @return result Picture object to store modified picture
    */
   public Picture swapLeftRight() {
     Pixel[][] pixels = this.getPixels2D();
@@ -378,102 +377,160 @@ public class Picture extends SimplePicture {
     for(int i = 0; i < pixels.length; i++) {
       //~ int index = 0;
       //~ for(int j = pixels[0].length / 2; j < pixels[0].length; j++) {
-        //~ resultPixels[i][index].setColor(pixels[i][j].getColor());
-        //~ index++;
+      //~ resultPixels[i][index].setColor(pixels[i][j].getColor());
+      //~ index++;
       //~ }
       //~ for(int j = 0; j < pixels[0].length / 2; j++) {
-        //~ resultPixels[i][index].setColor(pixels[i][j].getColor());
-        //~ index++;
+      //~ resultPixels[i][index].setColor(pixels[i][j].getColor());
+      //~ index++;
       //~ }
-      
-      
+
+
       for(int j = 0; j < pixels[0].length; j++) {
-	    int col = (j + pixels[0].length / 2) % pixels[0].length;
-	    resultPixels[i][col].setColor(pixels[i][j].getColor());
-	  }
+        int col = (j + pixels[0].length / 2) % pixels[0].length;
+        resultPixels[i][col].setColor(pixels[i][j].getColor());
+      }
     }
 
     return result;
   }
-  
-  /** <Description here>
-  * @param shiftCount The number of pixels to shift to the right
-  * @param steps The number of steps
-  * @return The picture with pixels shifted in stair steps
-  */
+
+  /** Distorts an image to split rows into "steps"
+   *  @param shiftCount The number of pixels to shift to the right
+   *  @param steps The number of steps
+   *  @return The picture with pixels shifted in stair steps
+   */
   public Picture stairStep(int shiftCount, int steps) {
-	Pixel[][] pixels = this.getPixels2D();
+    Pixel[][] pixels = this.getPixels2D();
     Picture result = new Picture(pixels.length, pixels[0].length);
     Pixel[][] resultPixels = result.getPixels2D();
-    
+
     //~ int count = 1;
     for(int i = 0; i < pixels.length; i++) {
-	  //~ int index = 0;
-	  //~ for(int j = pixels[0].length - (count * shiftCount); j < pixels[0].length; j++) {
-		//~ if(j >= 0) {
-		  //~ System.out.println(i + " " + j);
-		  //~ resultPixels[i][index].setColor(pixels[i][j].getColor());
-		  //~ index++;
-		//~ }
-	  //~ }
-	  //~ for(int j = 0; j < pixels[0].length - (count * shiftCount); j++) {
-		//~ System.out.println(i + " " + j);
-		//~ resultPixels[i][index].setColor(pixels[i][j].getColor());
-		//~ index++;
-	  //~ }
-	  //~ count++;
-	  
-	  int move = pixels.length / steps;
-	  
-	  for(int j = 0; j < pixels[0].length; j++) {
-	    int col = (pixels[0].length - j * shiftCount) % pixels[0].length;
-	    resultPixels[i][col].setColor(pixels[i][j].getColor());
-	  }
-	}
-	
-	return result;
+      //~ int index = 0;
+      //~ for(int j = pixels[0].length - (count * shiftCount); j < pixels[0].length; j++) {
+      //~ if(j >= 0) {
+      //~ System.out.println(i + " " + j);
+      //~ resultPixels[i][index].setColor(pixels[i][j].getColor());
+      //~ index++;
+      //~ }
+      //~ }
+      //~ for(int j = 0; j < pixels[0].length - (count * shiftCount); j++) {
+      //~ System.out.println(i + " " + j);
+      //~ resultPixels[i][index].setColor(pixels[i][j].getColor());
+      //~ index++;
+      //~ }
+      //~ count++;
+
+      for(int j = 0; j < pixels[0].length; j++) {
+        int move = pixels.length / steps;
+        int width = pixels[0].length;
+
+        resultPixels[i][(j + (shiftCount * (i / move))) % width].setColor(pixels[i][j].getColor());
+      }
+    }
+
+    return result;
   }
-  
-  public Picture edgeDetectionBelow(int threshhold) {
-	Pixel[][] pixels = this.getPixels2D();
+
+  /** Distorts an image to fit a Gaussian Curve
+   *  @param maxHeight Max height (shift) of curve in pixels
+   *  @return          Liquified picture
+   */
+  public Picture liquify(int maxHeight) {
+    Pixel[][] pixels = this.getPixels2D();
     Picture result = new Picture(pixels.length, pixels[0].length);
     Pixel[][] resultPixels = result.getPixels2D();
-    
-    for(int i = 0; i < pixels[0].length; i++) {
-	  for(int j = 0; j < pixels.length - 1; j++) {
-		double distance = pixels[j][i].colorDistance(pixels[j + 1][i].getColor());
-		
-		if(distance > threshhold * 1.0) resultPixels[j][i].setColor(new Color(0, 0, 0));
-		else resultPixels[j][i].setColor(new Color(255, 255, 255));
-	  }
-	}
-	
-	return result;
+    int bellWidth = 100;
+
+    for(int i = 0; i < pixels.length; i++) {
+      double exponent = Math.pow(i - pixels.length / 2.0, 2) / (2.0 * Math.pow(bellWidth, 2));
+      int rightShift = (int)(maxHeight * Math.exp(- exponent));
+
+      for(int j = 0; j < pixels[0].length; j++) {
+        //int col = j + rightShift;
+        //if(col >= pixels[0].length) col = col - pixels[0].length;
+
+        resultPixels[i][(j + rightShift) % pixels[0].length].setColor(pixels[i][j].getColor());
+      }
+    }
+
+    return result;
   }
-  
+
+  /** Distorts an image to fit a sinusoidal curve
+   *  @param amplitude The maximum shift of pixels
+   *  @return          Wavy picture
+   */
+  public Picture wavy(int amplitude) {
+    Pixel[][] pixels = this.getPixels2D();
+    Picture result = new Picture(pixels.length, pixels[0].length);
+    Pixel[][] resultPixels = result.getPixels2D();
+    int phaseShift = 0;
+    double frequency = 0.5;
+    for (int i = 0; i < pixels.length; i++){
+      int rightShift = (int)(amplitude * Math.sin(2 * Math.PI * frequency * Math.toRadians(i) + phaseShift));
+      if (rightShift < 0) rightShift = rightShift + pixels[0].length;
+
+      for (int j = 0; j < pixels[0].length; j++){
+        resultPixels[i][(j + rightShift) % pixels[0].length].setColor(pixels[i][j].getColor());
+      }
+    }
+    return result;
+  }
+
+  public Picture edgeDetectionBelow(int threshold) {
+    Pixel[][] pixels = this.getPixels2D();
+    Picture result = new Picture(pixels.length, pixels[0].length);
+    Pixel[][] resultPixels = result.getPixels2D();
+
+    for(int i = 0; i < pixels[0].length; i++) {
+      for(int j = 0; j < pixels.length - 1; j++) {
+        double distance = pixels[j][i].colorDistance(pixels[j + 1][i].getColor());
+
+        if(distance > threshold * 1.0) resultPixels[j][i].setColor(new Color(0, 0, 0));
+        else resultPixels[j][i].setColor(new Color(255, 255, 255));
+      }
+    }
+
+    return result;
+  }
+
   public Picture greenScreen() {
-	Pixel[][] pixels = this.getPixels2D();
-	Picture mouse = new Picture("GreenScreenCatMouse/mouse1GreenScreen.jpg");
-	Pixel[][] mousePix = mouse.getPixels2D();
-	Picture dog = new Picture("GreenScreenCatMouse/puppy1GreenScreen.jpg");
-	Pixel[][] dogPix = dog.getPixels2D();
-	
-	//~ [400, 575] r g b = 20 80 20
-	//~ System.out.println(dogPix.length + " " + dogPix[0].length);
-	int row = 0;
-	for(int i = 40; i < 40 + dogPix.length; i++) {
-	  int col = 0;
-	  for(int j = 50; j < 50 + dogPix[0].length; j++) {
-		//~ System.out.println(row + " " + col);
-		if(dogPix[row][col].getColor() != Color.GREEN)//new Color(20, 80, 20))
-		  pixels[i][j].setColor(dogPix[row][col].getColor());
-		
-		col++;
-	  }
-	  row++;
-	}
-	
-	return this;
+    Picture background = new Picture("GreenScreenCatMouse/IndoorHouseLibraryBackground.jpg");
+    Pixel[][] pixels = background.getPixels2D();
+    Picture mouse = new Picture("GreenScreenCatMouse/mouse1GreenScreen.jpg");
+    Pixel[][] mousePix = mouse.getPixels2D();
+    Picture dog = new Picture("GreenScreenCatMouse/puppy1GreenScreen.jpg");
+    Pixel[][] dogPix = dog.getPixels2D();
+
+    int row = 0;
+    for(int i = 400; i < 400 + dogPix.length / 2; i++) {
+      int col = 0;
+      for(int j = 225; j < 225 + dogPix[0].length / 2; j++) {
+        Color green = dogPix[0][0].getColor();
+        if(!dogPix[row][col].getColor().equals(green))
+          pixels[i][j].setColor(dogPix[row][col].getColor());
+
+        col += 2;
+      }
+      row += 2;
+    }
+
+    row = 0;
+    for(int i = 340; i < 340 + mousePix.length / 2; i++) {
+      int col = 0;
+      for(int j = 500; j < 500 + mousePix[0].length / 2; j++) {
+        Color green = mousePix[0][0].getColor();
+        if(row < mousePix.length && col < mousePix[0].length && !mousePix[row][col].getColor().equals(green))
+          pixels[i][j].setColor(mousePix[row][col].getColor());
+
+        col += 2;
+      }
+      row += 2;
+    }
+
+    return background;
   }
 
   /** Method that mirrors the picture around a

@@ -72,25 +72,39 @@ public class PictureTester
     bike = bike.swapLeftRight();
     bike.explore();
   }
-  
+
   public static void testStairStep() {
-	Picture bike = new Picture("images/redMotorcycle.jpg");
-	bike.explore();
-	bike = bike.stairStep(2, 1);
-	bike.explore();
+    Picture bike = new Picture("images/redMotorcycle.jpg");
+    bike.explore();
+    bike = bike.stairStep(10, 10);
+    bike.explore();
   }
-  
-  public static void testEdgeDetection() {
-	  Picture swan = new Picture("images/swan.jpg");
-	  swan.explore();
-	  swan = swan.edgeDetectionBelow(10);
-	  swan.explore();
+
+  public static void testLiquify() {
+    Picture bike = new Picture("images/redMotorcycle.jpg");
+    bike.explore();
+    bike = bike.liquify(100);
+    bike.explore();
   }
-  
+
+  public static void testWavy() {
+    Picture bike = new Picture("images/redMotorcycle.jpg");
+    bike.explore();
+    bike = bike.wavy(25);
+    bike.explore();
+  }
+
+  public static void testEdgeDetectionBelow() {
+    Picture swan = new Picture("images/swan.jpg");
+    swan.explore();
+    swan = swan.edgeDetectionBelow(10);
+    swan.explore();
+  }
+
   public static void testGreenScreen() {
-	Picture background = new Picture("GreenScreenCatMouse/IndoorJapeneseRoomBackground.jpg");
-	background = background.greenScreen();
-	background.explore();
+    Picture background = new Picture("GreenScreenCatMouse/IndoorJapeneseRoomBackground.jpg");
+    background = background.greenScreen();
+    background.explore();
   }
 
   /** Method to test mirrorVertical */
@@ -119,6 +133,14 @@ public class PictureTester
     canvas.explore();
   }
 
+  /** Method to test edgeDetection */
+  public static void testEdgeDetection()
+  {
+    Picture swan = new Picture("swan.jpg");
+    swan.edgeDetection(10);
+    swan.explore();
+  }
+
   /** Main method for testing.  Every class can have a main
    * method in Java */
   public static void main(String[] args)
@@ -126,7 +148,6 @@ public class PictureTester
     // uncomment a call here to run a test
     // and comment out the ones you don't want
     // to run
-    
     //testZeroBlue();
     //testOnlyBlue();
     //testNegate();
@@ -137,9 +158,11 @@ public class PictureTester
     //testEnhance();
     //testSwapLeftRight();
     //testStairStep();
-    //testEdgeDetection();
+    //testLiquify();
+    //testWavy();
+    //testEdgeDetectionBelow();
     testGreenScreen();
-    
+
     //testKeepOnlyBlue();
     //testKeepOnlyRed();
     //testKeepOnlyGreen();
