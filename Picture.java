@@ -200,6 +200,7 @@ public class Picture extends SimplePicture {
         r /= count;
         g /= count;
         b /= count;
+        System.out.println("r avg is " + r + " g avg is " + g + " bavg is " + b);
         count = 0;
 
         for (int k = i; k < i + size; k++) {
@@ -504,12 +505,19 @@ public class Picture extends SimplePicture {
     Picture dog = new Picture("GreenScreenCatMouse/puppy1GreenScreen.jpg");
     Pixel[][] dogPix = dog.getPixels2D();
 
+    dog.explore();
+
     int row = 0;
     for(int i = 400; i < 400 + dogPix.length / 2; i++) {
       int col = 0;
       for(int j = 225; j < 225 + dogPix[0].length / 2; j++) {
-        Color green = dogPix[0][0].getColor();
-        if(!dogPix[row][col].getColor().equals(green))
+//        int red = dogPix[row][col].getRed();
+//        int green = dogPix[row][col].getGreen();
+//        int blue = dogPix[row][col].getBlue();
+//        if(row < dogPix.length && col < mousePix[0].length && !(red > 25 && red < 110) && !(green > 120 && green < 215) &&
+//                                                              !(blue > 25 && blue < 100))
+        Color green = mousePix[0][0].getColor();
+        if(row < dogPix.length && col < dogPix[0].length && !dogPix[row][col].getColor().equals(green))
           pixels[i][j].setColor(dogPix[row][col].getColor());
 
         col += 2;
