@@ -517,7 +517,7 @@ public class Picture extends SimplePicture {
 //        if(row < dogPix.length && col < mousePix[0].length && !(red > 25 && red < 110) && !(green > 120 && green < 215) &&
 //                                                              !(blue > 25 && blue < 100))
         Color green = mousePix[0][0].getColor();
-        if(row < dogPix.length && col < dogPix[0].length && !dogPix[row][col].getColor().equals(green))
+        if(row < dogPix.length && col < dogPix[0].length && !dogPix[row][col].getColor().colorDistance(green) > 60)
           pixels[i][j].setColor(dogPix[row][col].getColor());
 
         col += 2;
@@ -530,7 +530,7 @@ public class Picture extends SimplePicture {
       int col = 0;
       for(int j = 500; j < 500 + mousePix[0].length / 2; j++) {
         Color green = mousePix[0][0].getColor();
-        if(row < mousePix.length && col < mousePix[0].length && !mousePix[row][col].getColor().equals(green))
+        if(row < mousePix.length && col < mousePix[0].length && !mousePix[row][col].getColor().colorDistance(green) > 60)
           pixels[i][j].setColor(mousePix[row][col].getColor());
 
         col += 2;
